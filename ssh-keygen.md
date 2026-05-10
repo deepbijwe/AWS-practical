@@ -1,4 +1,4 @@
-#  🔑🔐 🔑 AWS Practical — SSH Key-Based User Access on Ubuntu EC2
+# 🔐AWS Practical — SSH Key-Based User Access on Ubuntu EC2
 
 > **Aim:** Provide local user-only access to an AWS Ubuntu instance using a public key (`.pub`) file, allowing SSH login with only user-level (non-root) privileges.
 
