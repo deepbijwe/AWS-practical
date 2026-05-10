@@ -1,4 +1,4 @@
-# 🔐 AWS Practical — SSH Key-Based User Access on Ubuntu EC2
+#  🔑🔐 🔑 AWS Practical — SSH Key-Based User Access on Ubuntu EC2
 
 > **Aim:** Provide local user-only access to an AWS Ubuntu instance using a public key (`.pub`) file, allowing SSH login with only user-level (non-root) privileges.
 
@@ -27,7 +27,7 @@ This practical demonstrates how to:
 - Grant that user SSH access **only** via a public key
 - Restrict access to user-level privileges (no root/sudo access)
 
-![SSH Key Flow Diagram](images/ssh-flow-diagram.svg)
+[SSH Key Flow Diagram]
 
 ```
 Local Machine                        AWS EC2 (Ubuntu)

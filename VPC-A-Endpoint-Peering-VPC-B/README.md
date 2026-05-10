@@ -276,4 +276,4 @@ PING 10.1.128.x (10.1.128.x) 56(84) bytes of data.
 - **EC2 Instance Connect Endpoint** allows SSH access to private instances over AWS's internal network — no bastion host or public IP required.
 - **VPC Peering** creates a private, non-transitive network route between two VPCs, even across regions (inter-region peering).
 - **Route Tables** must be manually updated on both sides of a peering connection — peering alone does not route traffic.
-- Traffic over VPC peering stays on AWS's backbone network and never traverses the public internet.
+- Traffic over VPC peering stays on AWS's backbone network and never traverses the public internet.ls
