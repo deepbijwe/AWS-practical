@@ -187,7 +187,7 @@ docker pull nginx
 docker images
 ```
 
-![Docker Pull nginx](images/10-docker-login-pull.png)
+[Docker Pull nginx]
 
 The nginx image is downloaded successfully:
 - **Image:** `nginx:latest`
