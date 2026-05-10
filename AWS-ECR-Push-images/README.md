@@ -53,7 +53,7 @@ The instance should be in the **Running** state with all status checks passing b
 ![EC2 Instance Running]
 
 **Key instance details recorded:**
-- **Instance ID:** `i-07951fd10dae919d8`
+- **Instance ID:** `i-07951fg10dae919d8`
 - **Public IP:** `13.216.244.153`
 - **Private IP:** `172.31.32.134`
 - **Region:** `us-east-1`
