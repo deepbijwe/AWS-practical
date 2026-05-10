@@ -50,7 +50,7 @@ Launch or use an existing EC2 instance. In this guide, the instance is named **t
 
 The instance should be in the **Running** state with all status checks passing before proceeding.
 
-![EC2 Instance Running](images/01-ec2-instance.png)
+![EC2 Instance Running]
 
 **Key instance details recorded:**
 - **Instance ID:** `i-07951fd10dae919d8`
