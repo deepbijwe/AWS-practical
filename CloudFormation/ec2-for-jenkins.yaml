@@ -1,0 +1,145 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template generated from AWS CLI commands - Creates EC2 security group and instance with Jenkins configuration'
+
+Parameters:
+  VpcId:
+    Type: String
+    Default: 'vpc-06e69e0c7769f41da'
+    Description: 'VPC ID for the security group'
+  
+  KeyName:
+    Type: String
+    Default: 'my-mumbai'
+    Description: 'EC2 Key Pair name for SSH access'
+  
+  ImageId:
+    Type: String
+    Default: 'ami-01a00762f46d584a1'
+    Description: 'AMI ID for the EC2 instance'
+
+Resources:
+  # Security Group for Jenkins Server
+  # Created from: aws ec2 create-security-group
+  LaunchWizard41SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupName: 'launch-wizard-41'
+      GroupDescription: 'launch-wizard-41 created 2026-07-02T07:45:00.273Z'
+      VpcId: Ref 'VpcId'
+      Tags:
+        - Key: 'Name'
+          Value: 'launch-wizard-41'
+
+  # Security Group Ingress Rule for SSH Access (Port 22)
+  # Created from: aws ec2 authorize-security-group-ingress
+  SecurityGroupIngressSSH:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: Ref LaunchWizard41SecurityGroup
+      IpProtocol: 'tcp'
+      FromPort: 22
+      ToPort: 22
+      CidrIp: '0.0.0.0/0'
+      Description: 'Allow SSH access from anywhere'
+
+  # Security Group Ingress Rule for Jenkins Web Interface (Port 8080)
+  # Created from: aws ec2 authorize-security-group-ingress
+  SecurityGroupIngressJenkins:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      GroupId: Ref LaunchWizard41SecurityGroup
+      IpProtocol: 'tcp'
+      FromPort: 8080
+      ToPort: 8080
+      CidrIp: '0.0.0.0/0'
+      Description: 'Allow Jenkins web interface access'
+
+  # EC2 Instance for Jenkins Test Server
+  # Created from: aws ec2 run-instances
+  JenkinsTestServerInstance:
+    Type: 'AWS::EC2::Instance'
+    DependsOn:
+      - SecurityGroupIngressSSH
+      - SecurityGroupIngressJenkins
+    Properties:
+      # AMI and Instance Type Configuration
+      ImageId: Ref ImageId
+      InstanceType: 't3.small'
+      KeyName: Ref KeyName
+      
+      # EBS Optimization enabled for better storage performance
+      EbsOptimized: true
+      
+      # Root Volume Configuration with GP3 SSD
+      BlockDeviceMappings:
+        - DeviceName: '/dev/sda1'
+          Ebs:
+            VolumeSize: 15
+            VolumeType: 'gp3'
+            Iops: 3000
+            Throughput: 125
+            Encrypted: false
+            DeleteOnTermination: true
+            SnapshotId: 'snap-00bb52dde0986b127'
+      
+      # Network Configuration with Public IP
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: 0
+          GroupSet:
+            - Ref 'LaunchWizard41SecurityGroup'
+          DeleteOnTermination: true
+      
+      # T3 Unlimited CPU Credits for consistent performance
+      CreditSpecification:
+        CPUCredits: 'unlimited'
+      
+      # Instance Metadata Service v2 (IMDSv2) Configuration
+      # Enforces secure metadata access with token requirement
+      MetadataOptions:
+        HttpEndpoint: 'enabled'
+        HttpPutResponseHopLimit: 2
+        HttpTokens: 'required'
+      
+      # Private DNS Configuration
+      PrivateDnsNameOptions:
+        HostnameType: 'ip-name'
+        EnableResourceNameDnsARecord: true
+        EnableResourceNameDnsAAAARecord: false
+      
+      # Instance Tags
+      Tags:
+        - Key: 'Name'
+          Value: 'Jenkins-test-server'
+
+Outputs:
+  SecurityGroupId:
+    Description: 'Security Group ID for launch-wizard-41'
+    Value: Ref 'LaunchWizard41SecurityGroup'
+    Export:
+      Name: Sub '${AWS::StackName}-SecurityGroupId'
+  
+  InstanceId:
+    Description: 'EC2 Instance ID for Jenkins Test Server'
+    Value: Ref 'JenkinsTestServerInstance'
+    Export:
+      Name: Sub '${AWS::StackName}-InstanceId'
+  
+  PublicIpAddress:
+    Description: 'Public IP Address of Jenkins Test Server'
+    Value: GetAtt 'JenkinsTestServerInstance' 'PublicIp'
+    Export:
+      Name: Sub '${AWS::StackName}-PublicIp'
+  
+  PrivateIpAddress:
+    Description: 'Private IP Address of Jenkins Test Server'
+    Value: GetAtt 'JenkinsTestServerInstance' 'PrivateIp'
+    Export:
+      Name: Sub '${AWS::StackName}-PrivateIp'
+  
+  JenkinsURL:
+    Description: 'Jenkins Web Interface URL'
+    Value: Sub 'http://${JenkinsTestServerInstance.PublicIp}:8080'
+    Export:
+      Name: Sub '${AWS::StackName}-JenkinsURL'
