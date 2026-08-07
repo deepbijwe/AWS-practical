@@ -9,27 +9,13 @@
 
 ## 📐 Architecture Overview
 
-```
-┌─────────────────────────────────────────────┐
-│              AWS EC2 (Ubuntu)               │
-│                                             │
-│  ┌─────────────────────────────────────┐    │
-│  │  Tier 1 — Presentation Layer        │    │
-│  │  HTML / CSS / JS  ·  Port 80        │    │
-│  └────────────────┬────────────────────┘    │
-│                   │ HTTP                    │
-│  ┌────────────────▼────────────────────┐    │
-│  │  Tier 2 — Application Layer         │    │
-│  │  Spring Boot 3.3.5 · Java 17        │    │
-│  │  Embedded Tomcat  ·  Port 8080      │    │
-│  └────────────────┬────────────────────┘    │
-│                   │ JDBC / JPA              │
-│  ┌────────────────▼────────────────────┐    │
-│  │  Tier 3 — Data Layer                │    │
-│  │  MariaDB · student_db · Port 3306   │    │
-│  └─────────────────────────────────────┘    │
-└─────────────────────────────────────────────┘
-```
+![3-Tier Student Registration App on AWS EC2](./screenshots/architecture.png)
+
+> **Architecture breakdown:**
+> - **Tier 1 — Presentation Layer:** Nginx Web Server (Port 80) serves static HTML/CSS/JS files
+> - **Tier 2 — Application Layer:** Spring Boot 3.3.5 with embedded Tomcat (Port 8080) exposes REST APIs — Student Registration, List, Update, Delete
+> - **Tier 3 — Data Layer:** MariaDB database `student_db` (Port 3306) stores all student records
+> - **Flow:** User → Internet → Nginx (Port 80) → Spring Boot (Port 8080) → MariaDB (Port 3306) → Response back to user
 
 ---
 
@@ -113,7 +99,7 @@ EXIT;
 
 #### ✅ Database Verified — MariaDB `student_db` with `user` table
 
-![Database Terminal](./screenshots/app-database.png)
+![Database Terminal](app-database.png)
 
 > Screenshot shows `student_db` database running with the `user` table containing registered student records queried via MariaDB CLI.
 
@@ -156,7 +142,7 @@ nohup java -jar target/student-registration-backend-0.0.1-SNAPSHOT.jar \
 
 #### ✅ Spring Boot Started Successfully
 
-![Spring Boot Startup Logs](./screenshots/app-backend.png)
+![Spring Boot Startup Logs](app-backend.png)
 
 > Screenshot shows Spring Boot 3.3.5 starting with Java 17, Tomcat initializing on port 8080, HikariCP connection pool connecting to MariaDB, and Hibernate JPA bootstrapping successfully.
 
@@ -210,7 +196,7 @@ http://<EC2-PUBLIC-IP>
 
 #### ✅ Application Live — Student Registration Form
 
-![Live Application](./screenshots/app-frontend.png)
+![Live Application](app-frontend.png)
 
 > Screenshot shows the CLOUDBLITZ Student Registration app running live on AWS EC2 public IP `44.201.179.102`. The form accepts Name, Email, Course, Highest Education, Percentage, Branch, and Mobile Number fields, with registered data displayed in the table below.
 
