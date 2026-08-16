@@ -99,7 +99,7 @@ EXIT;
 
 #### ✅ Database Verified — MariaDB `student_db` with `user` table
 
-![Database Terminal](app-database.png)
+![Database Terminal](./screenshots/app-database.png)
 
 > Screenshot shows `student_db` database running with the `user` table containing registered student records queried via MariaDB CLI.
 
@@ -142,7 +142,7 @@ nohup java -jar target/student-registration-backend-0.0.1-SNAPSHOT.jar \
 
 #### ✅ Spring Boot Started Successfully
 
-![Spring Boot Startup Logs](app-backend.png)
+![Spring Boot Startup Logs](/screenshots/app-backend.png)
 
 > Screenshot shows Spring Boot 3.3.5 starting with Java 17, Tomcat initializing on port 8080, HikariCP connection pool connecting to MariaDB, and Hibernate JPA bootstrapping successfully.
 
@@ -196,7 +196,7 @@ http://<EC2-PUBLIC-IP>
 
 #### ✅ Application Live — Student Registration Form
 
-![Live Application](app-frontend.png)
+![Live Application](/screenshots/app-frontend.png)
 
 > Screenshot shows the CLOUDBLITZ Student Registration app running live on AWS EC2 public IP `44.201.179.102`. The form accepts Name, Email, Course, Highest Education, Percentage, Branch, and Mobile Number fields, with registered data displayed in the table below.
 
